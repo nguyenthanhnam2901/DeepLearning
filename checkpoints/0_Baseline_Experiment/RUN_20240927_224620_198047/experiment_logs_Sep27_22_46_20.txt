@@ -1,0 +1,665 @@
+--------- config parameters ----------
+{
+    "checkpoint_params": {
+        "load_checkpoint": false,
+        "schema": null
+    },
+    "training_hyperparams": {
+        "lr_warmup_epochs": 1,
+        "lr_warmup_steps": 0,
+        "lr_cooldown_epochs": 0,
+        "warmup_initial_lr": 0.0,
+        "cosine_final_lr_ratio": 0,
+        "optimizer": "AdamW",
+        "optimizer_params": {},
+        "criterion_params": {
+            "smooth_eps": 0.3
+        },
+        "ema": true,
+        "batch_accumulate": 1,
+        "ema_params": {
+            "decay": 0.9999,
+            "decay_type": "exp",
+            "beta": 15
+        },
+        "zero_weight_decay_on_bias_and_bn": false,
+        "load_opt_params": true,
+        "run_validation_freq": 1,
+        "run_test_freq": 1,
+        "save_model": true,
+        "metric_to_watch": "Accuracy",
+        "launch_tensorboard": false,
+        "tb_files_user_prompt": false,
+        "silent_mode": true,
+        "mixed_precision": false,
+        "tensorboard_port": null,
+        "save_ckpt_epoch_list": "[]",
+        "average_best_models": true,
+        "dataset_statistics": false,
+        "save_tensorboard_to_s3": false,
+        "lr_schedule_function": null,
+        "train_metrics_list": [
+            "Accuracy()"
+        ],
+        "valid_metrics_list": [
+            "Accuracy()"
+        ],
+        "greater_metric_to_watch_is_better": true,
+        "precise_bn": false,
+        "precise_bn_batch_size": null,
+        "seed": 42,
+        "lr_mode": "CosineLRScheduler",
+        "phase_callbacks": [
+            "EarlyStop",
+            "EarlyStop"
+        ],
+        "log_installed_packages": true,
+        "sg_logger": "base_sg_logger",
+        "sg_logger_params": {
+            "tb_files_user_prompt": false,
+            "project_name": "",
+            "launch_tensorboard": false,
+            "tensorboard_port": null,
+            "save_checkpoints_remote": false,
+            "save_tensorboard_remote": false,
+            "save_logs_remote": false,
+            "monitor_system": true
+        },
+        "warmup_mode": "LinearEpochLRWarmup",
+        "step_lr_update_freq": null,
+        "lr_updates": "[]",
+        "initial_lr": 0.0001,
+        "clip_grad_norm": 1,
+        "pre_prediction_callback": null,
+        "ckpt_best_name": "ckpt_best.pth",
+        "enable_qat": false,
+        "resume": false,
+        "resume_path": null,
+        "ckpt_name": "ckpt_latest.pth",
+        "resume_strict_load": false,
+        "sync_bn": false,
+        "kill_ddp_pgroup_on_end": true,
+        "max_train_batches": null,
+        "max_valid_batches": null,
+        "resume_from_remote_sg_logger": false,
+        "torch_compile": false,
+        "torch_compile_loss": false,
+        "torch_compile_options": {
+            "mode": "reduce-overhead",
+            "fullgraph": false,
+            "dynamic": false,
+            "backend": "inductor",
+            "options": null,
+            "disable": false
+        },
+        "finetune": false,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "max_epochs": {
+                    "type": "number",
+                    "minimum": 1
+                },
+                "lr_decay_factor": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "lr_warmup_epochs": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 10
+                },
+                "initial_lr": {
+                    "anyOf": [
+                        {
+                            "type": [
+                                "number",
+                                "string",
+                                "boolean",
+                                "null"
+                            ]
+                        },
+                        {
+                            "type": "object",
+                            "patternProperties": {
+                                "^[a-zA-Z0-9_.]+$": {
+                                    "type": "number"
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    ]
+                }
+            },
+            "if": {
+                "properties": {
+                    "lr_mode": {
+                        "const": "StepLRScheduler"
+                    }
+                }
+            },
+            "then": {
+                "required": [
+                    "lr_updates",
+                    "lr_decay_factor"
+                ]
+            },
+            "required": [
+                "max_epochs",
+                "lr_mode",
+                "initial_lr",
+                "loss"
+            ]
+        },
+        "run_id": null,
+        "loss": "CrossEntropyLoss",
+        "_convert_": "all",
+        "max_epochs": 100
+    },
+    "dataset_params": {
+        "train_dataset_params": null,
+        "train_dataloader_params": null,
+        "valid_dataset_params": null,
+        "valid_dataloader_params": null
+    },
+    "additional_log_items": {
+        "initial_LR": 0.0001,
+        "num_devices": 1,
+        "multi_gpu": "None",
+        "device_type": "NVIDIA GeForce RTX 4060 Laptop GPU",
+        "installed_packages": {
+            "deprecated": "1.2.14",
+            "jinja2": "3.1.3",
+            "markdown": "3.7",
+            "markupsafe": "2.1.5",
+            "pywavelets": "1.4.1",
+            "pyyaml": "6.0.2",
+            "send2trash": "1.8.3",
+            "sphinx": "4.0.3",
+            "absl-py": "2.1.0",
+            "alabaster": "0.7.13",
+            "albumentations": "1.3.1",
+            "antlr4-python3-runtime": "4.9.3",
+            "anyio": "4.5.0",
+            "arabic-reshaper": "3.0.0",
+            "argon2-cffi": "23.1.0",
+            "argon2-cffi-bindings": "21.2.0",
+            "arrow": "1.3.0",
+            "asn1crypto": "1.5.1",
+            "asttokens": "2.4.1",
+            "async-lru": "2.0.4",
+            "attrs": "24.2.0",
+            "babel": "2.16.0",
+            "backcall": "0.2.0",
+            "backports.zoneinfo": "0.2.1",
+            "beautifulsoup4": "4.12.3",
+            "bleach": "6.1.0",
+            "boto3": "1.35.28",
+            "botocore": "1.35.28",
+            "build": "1.2.2",
+            "cachetools": "5.5.0",
+            "certifi": "2022.12.7",
+            "cffi": "1.17.1",
+            "charset-normalizer": "2.1.1",
+            "click": "8.1.7",
+            "colorama": "0.4.6",
+            "coloredlogs": "15.0.1",
+            "comm": "0.2.2",
+            "contourpy": "1.1.1",
+            "coverage": "5.3.1",
+            "cryptography": "43.0.1",
+            "cssselect2": "0.7.0",
+            "cycler": "0.12.1",
+            "data-gradients": "0.3.2",
+            "debugpy": "1.8.6",
+            "decorator": "5.1.1",
+            "defusedxml": "0.7.1",
+            "docutils": "0.17.1",
+            "einops": "0.3.2",
+            "exceptiongroup": "1.2.2",
+            "executing": "2.1.0",
+            "fastjsonschema": "2.20.0",
+            "filelock": "3.13.1",
+            "flatbuffers": "24.3.25",
+            "fonttools": "4.54.1",
+            "fqdn": "1.5.1",
+            "future": "1.0.0",
+            "google-auth": "2.35.0",
+            "google-auth-oauthlib": "1.0.0",
+            "grpcio": "1.66.1",
+            "h11": "0.14.0",
+            "html5lib": "1.1",
+            "httpcore": "1.0.5",
+            "httpx": "0.27.2",
+            "humanfriendly": "10.0",
+            "hydra-core": "1.3.2",
+            "idna": "3.4",
+            "imagededup": "0.3.2",
+            "imageio": "2.35.1",
+            "imagesize": "1.4.1",
+            "importlib-metadata": "8.5.0",
+            "importlib-resources": "6.4.5",
+            "imutils": "0.5.4",
+            "ipykernel": "6.29.5",
+            "ipython": "8.12.3",
+            "isoduration": "20.11.0",
+            "jedi": "0.19.1",
+            "jmespath": "1.0.1",
+            "joblib": "1.4.2",
+            "json5": "0.9.25",
+            "json-tricks": "3.16.1",
+            "jsonpointer": "3.0.0",
+            "jsonschema": "4.23.0",
+            "jsonschema-specifications": "2023.12.1",
+            "jupyter-client": "8.6.3",
+            "jupyter-core": "5.7.2",
+            "jupyter-events": "0.10.0",
+            "jupyter-lsp": "2.2.5",
+            "jupyter-server": "2.14.2",
+            "jupyter-server-terminals": "0.5.3",
+            "jupyterlab": "4.2.5",
+            "jupyterlab-pygments": "0.3.0",
+            "jupyterlab-server": "2.27.3",
+            "kiwisolver": "1.4.7",
+            "lazy-loader": "0.4",
+            "lxml": "5.3.0",
+            "markdown-it-py": "3.0.0",
+            "matplotlib": "3.7.5",
+            "matplotlib-inline": "0.1.7",
+            "mdurl": "0.1.2",
+            "mistune": "3.0.2",
+            "mpmath": "1.3.0",
+            "nbclient": "0.10.0",
+            "nbconvert": "7.16.4",
+            "nbformat": "5.10.4",
+            "nest-asyncio": "1.6.0",
+            "networkx": "3.0",
+            "notebook": "7.2.2",
+            "notebook-shim": "0.2.4",
+            "numpy": "1.23.0",
+            "oauthlib": "3.2.2",
+            "omegaconf": "2.3.0",
+            "onnx": "1.15.0",
+            "onnxruntime": "1.15.0",
+            "onnxsim": "0.4.36",
+            "opencv-python": "4.10.0.84",
+            "opencv-python-headless": "4.10.0.84",
+            "oscrypto": "1.3.0",
+            "overrides": "7.7.0",
+            "packaging": "24.1",
+            "pandas": "2.0.3",
+            "pandocfilters": "1.5.1",
+            "parso": "0.8.4",
+            "pickleshare": "0.7.5",
+            "pillow": "10.2.0",
+            "pip": "23.2.1",
+            "pip-tools": "7.4.1",
+            "pkgutil-resolve-name": "1.3.10",
+            "platformdirs": "4.3.6",
+            "prometheus-client": "0.21.0",
+            "prompt-toolkit": "3.0.48",
+            "protobuf": "3.20.3",
+            "psutil": "6.0.0",
+            "pure-eval": "0.2.3",
+            "pydeprecate": "0.3.2",
+            "pyhanko": "0.25.1",
+            "pyasn1": "0.6.1",
+            "pyasn1-modules": "0.4.1",
+            "pycparser": "2.22",
+            "pygments": "2.18.0",
+            "pyhanko-certvalidator": "0.26.3",
+            "pyparsing": "3.1.4",
+            "pypdf": "5.0.0",
+            "pypng": "0.20220715.0",
+            "pyproject-hooks": "1.1.0",
+            "pyreadline3": "3.5.4",
+            "python-bidi": "0.6.0",
+            "python-dateutil": "2.9.0.post0",
+            "python-json-logger": "2.0.7",
+            "pytz": "2024.2",
+            "pywin32": "306",
+            "pywinpty": "2.0.13",
+            "pyzmq": "26.2.0",
+            "qrcode": "7.4.2",
+            "qudida": "0.0.4",
+            "rapidfuzz": "3.9.7",
+            "referencing": "0.35.1",
+            "reportlab": "3.6.13",
+            "requests": "2.32.3",
+            "requests-oauthlib": "2.0.0",
+            "rfc3339-validator": "0.1.4",
+            "rfc3986-validator": "0.1.1",
+            "rich": "13.8.1",
+            "rpds-py": "0.20.0",
+            "rsa": "4.9",
+            "s3transfer": "0.10.2",
+            "scikit-image": "0.21.0",
+            "scikit-learn": "1.3.2",
+            "scipy": "1.10.1",
+            "seaborn": "0.13.2",
+            "setuptools": "68.2.0",
+            "six": "1.16.0",
+            "sniffio": "1.3.1",
+            "snowballstemmer": "2.2.0",
+            "soupsieve": "2.6",
+            "sphinx-rtd-theme": "1.3.0",
+            "sphinxcontrib-applehelp": "1.0.4",
+            "sphinxcontrib-devhelp": "1.0.2",
+            "sphinxcontrib-htmlhelp": "2.0.1",
+            "sphinxcontrib-jquery": "4.1",
+            "sphinxcontrib-jsmath": "1.0.1",
+            "sphinxcontrib-qthelp": "1.0.3",
+            "sphinxcontrib-serializinghtml": "1.1.5",
+            "split-folders": "0.5.1",
+            "stack-data": "0.6.3",
+            "stringcase": "1.2.0",
+            "super-gradients": "3.7.1",
+            "svglib": "1.5.1",
+            "sympy": "1.12",
+            "tensorboard": "2.14.0",
+            "tensorboard-data-server": "0.7.2",
+            "termcolor": "1.1.0",
+            "terminado": "0.18.1",
+            "threadpoolctl": "3.5.0",
+            "tifffile": "2023.7.10",
+            "tinycss2": "1.3.0",
+            "tomli": "2.0.1",
+            "torch": "2.0.1+cu117",
+            "torchaudio": "2.0.2+cu117",
+            "torchmetrics": "0.8.0",
+            "torchvision": "0.15.2+cu117",
+            "tornado": "6.4.1",
+            "tqdm": "4.66.5",
+            "traitlets": "5.14.3",
+            "treelib": "1.6.1",
+            "types-python-dateutil": "2.9.0.20240906",
+            "typing-extensions": "4.9.0",
+            "tzdata": "2024.2",
+            "tzlocal": "5.2",
+            "uri-template": "1.3.0",
+            "uritools": "4.0.3",
+            "urllib3": "1.26.13",
+            "wcwidth": "0.2.13",
+            "webcolors": "24.8.0",
+            "webencodings": "0.5.1",
+            "websocket-client": "1.8.0",
+            "werkzeug": "3.0.4",
+            "wheel": "0.41.2",
+            "wrapt": "1.16.0",
+            "xhtml2pdf": "0.2.11",
+            "zipp": "3.20.2"
+        }
+    }
+}
+------- config parameters end --------
+
+Epoch 0 (1/100)  - Train_Inference_Time: 41533.1875	Train_CrossEntropyLoss: 3.0188543796539307	Train_Accuracy: 0.10689815133810043	
+
+Epoch 0 (1/100)  - Valid_Inference_Time: 3405.542724609375	Valid_CrossEntropyLoss: 2.853630542755127	Valid_Accuracy: 0.10925926268100739	
+
+Epoch 0 (1/100)  - LR: 0.0	
+
+Epoch 1 (2/100)  - Train_Inference_Time: 66244.921875	Train_CrossEntropyLoss: 1.6296401023864746	Train_Accuracy: 0.6986573934555054	
+
+Epoch 1 (2/100)  - Valid_Inference_Time: 1354.02001953125	Valid_CrossEntropyLoss: 1.3854858875274658	Valid_Accuracy: 0.8714814782142639	
+
+Epoch 1 (2/100)  - LR: 0.0001	
+
+Epoch 2 (3/100)  - Train_Inference_Time: 61691.41015625	Train_CrossEntropyLoss: 1.4919098615646362	Train_Accuracy: 0.7862036824226379	
+
+Epoch 2 (3/100)  - Valid_Inference_Time: 1336.2979736328125	Valid_CrossEntropyLoss: 1.3372617959976196	Valid_Accuracy: 0.8955555558204651	
+
+Epoch 2 (3/100)  - LR: 9.997494468726616e-05	
+
+Epoch 3 (4/100)  - Train_Inference_Time: 37602.46875	Train_CrossEntropyLoss: 1.4580717086791992	Train_Accuracy: 0.8052777647972107	
+
+Epoch 3 (4/100)  - Valid_Inference_Time: 725.5028076171875	Valid_CrossEntropyLoss: 1.3279508352279663	Valid_Accuracy: 0.898888885974884	
+
+Epoch 3 (4/100)  - LR: 9.989957132922365e-05	
+
+Epoch 4 (5/100)  - Train_Inference_Time: 37759.19921875	Train_CrossEntropyLoss: 1.4353283643722534	Train_Accuracy: 0.8246759176254272	
+
+Epoch 4 (5/100)  - Valid_Inference_Time: 739.5519409179688	Valid_CrossEntropyLoss: 1.3363441228866577	Valid_Accuracy: 0.8948147892951965	
+
+Epoch 4 (5/100)  - LR: 9.977395568201562e-05	
+
+Epoch 5 (6/100)  - Train_Inference_Time: 37733.31640625	Train_CrossEntropyLoss: 1.4289737939834595	Train_Accuracy: 0.8273611068725586	
+
+Epoch 5 (6/100)  - Valid_Inference_Time: 736.179931640625	Valid_CrossEntropyLoss: 1.3239997625350952	Valid_Accuracy: 0.9011111259460449	
+
+Epoch 5 (6/100)  - LR: 9.959822422403664e-05	
+
+Epoch 6 (7/100)  - Train_Inference_Time: 37931.27734375	Train_CrossEntropyLoss: 1.4180458784103394	Train_Accuracy: 0.8346759080886841	
+
+Epoch 6 (7/100)  - Valid_Inference_Time: 744.5098876953125	Valid_CrossEntropyLoss: 1.297378420829773	Valid_Accuracy: 0.9181481599807739	
+
+Epoch 6 (7/100)  - LR: 9.937255389369503e-05	
+
+Epoch 7 (8/100)  - Train_Inference_Time: 37686.81640625	Train_CrossEntropyLoss: 1.413133144378662	Train_Accuracy: 0.8388888835906982	
+
+Epoch 7 (8/100)  - Valid_Inference_Time: 728.2167358398438	Valid_CrossEntropyLoss: 1.332768201828003	Valid_Accuracy: 0.8966666460037231	
+
+Epoch 7 (8/100)  - LR: 9.909717191125925e-05	
+
+Epoch 8 (9/100)  - Train_Inference_Time: 39890.89453125	Train_CrossEntropyLoss: 1.4056332111358643	Train_Accuracy: 0.8446758985519409	
+
+Epoch 8 (9/100)  - Valid_Inference_Time: 1582.7547607421875	Valid_CrossEntropyLoss: 1.3124785423278809	Valid_Accuracy: 0.9059259295463562	
+
+Epoch 8 (9/100)  - LR: 9.8772355550077e-05	
+
+Epoch 9 (10/100)  - Train_Inference_Time: 50599.4765625	Train_CrossEntropyLoss: 1.396261215209961	Train_Accuracy: 0.849490761756897	
+
+Epoch 9 (10/100)  - Valid_Inference_Time: 733.3851318359375	Valid_CrossEntropyLoss: 1.293820858001709	Valid_Accuracy: 0.9251852035522461	
+
+Epoch 9 (10/100)  - LR: 9.839843185739761e-05	
+
+Epoch 10 (11/100)  - Train_Inference_Time: 37668.15625	Train_CrossEntropyLoss: 1.3898417949676514	Train_Accuracy: 0.8565278053283691	
+
+Epoch 10 (11/100)  - Valid_Inference_Time: 732.2800903320312	Valid_CrossEntropyLoss: 1.2731883525848389	Valid_Accuracy: 0.9388889074325562	
+
+Epoch 10 (11/100)  - LR: 9.797577732507847e-05	
+
+Epoch 11 (12/100)  - Train_Inference_Time: 37697.48828125	Train_CrossEntropyLoss: 1.3843213319778442	Train_Accuracy: 0.8562963008880615	
+
+Epoch 11 (12/100)  - Valid_Inference_Time: 719.6939697265625	Valid_CrossEntropyLoss: 1.285117506980896	Valid_Accuracy: 0.9218518733978271	
+
+Epoch 11 (12/100)  - LR: 9.750481751050743e-05	
+
+Epoch 12 (13/100)  - Train_Inference_Time: 37778.9609375	Train_CrossEntropyLoss: 1.3808715343475342	Train_Accuracy: 0.862407386302948	
+
+Epoch 12 (13/100)  - Valid_Inference_Time: 727.1962280273438	Valid_CrossEntropyLoss: 1.3174524307250977	Valid_Accuracy: 0.8951851725578308	
+
+Epoch 12 (13/100)  - LR: 9.698602660812262e-05	
+
+Epoch 13 (14/100)  - Train_Inference_Time: 37677.83984375	Train_CrossEntropyLoss: 1.37223219871521	Train_Accuracy: 0.8658333420753479	
+
+Epoch 13 (14/100)  - Valid_Inference_Time: 730.0943603515625	Valid_CrossEntropyLoss: 1.2819844484329224	Valid_Accuracy: 0.9288889169692993	
+
+Epoch 13 (14/100)  - LR: 9.641992697196113e-05	
+
+Epoch 14 (15/100)  - Train_Inference_Time: 37691.7578125	Train_CrossEntropyLoss: 1.3742337226867676	Train_Accuracy: 0.8665740489959717	
+
+Epoch 14 (15/100)  - Valid_Inference_Time: 735.0735473632812	Valid_CrossEntropyLoss: 1.2694857120513916	Valid_Accuracy: 0.9414814710617065	
+
+Epoch 14 (15/100)  - LR: 9.580708858971746e-05	
+
+Epoch 15 (16/100)  - Train_Inference_Time: 37646.890625	Train_CrossEntropyLoss: 1.3663078546524048	Train_Accuracy: 0.8687037229537964	
+
+Epoch 15 (16/100)  - Valid_Inference_Time: 738.5672607421875	Valid_CrossEntropyLoss: 1.2725688219070435	Valid_Accuracy: 0.9355555772781372	
+
+Epoch 15 (16/100)  - LR: 9.514812850884092e-05	
+
+Epoch 16 (17/100)  - Train_Inference_Time: 37655.29296875	Train_CrossEntropyLoss: 1.364026427268982	Train_Accuracy: 0.872083306312561	
+
+Epoch 16 (17/100)  - Valid_Inference_Time: 724.973388671875	Valid_CrossEntropyLoss: 1.268660306930542	Valid_Accuracy: 0.9396296143531799	
+
+Epoch 16 (17/100)  - LR: 9.444371021525036e-05	
+
+Epoch 17 (18/100)  - Train_Inference_Time: 37610.9609375	Train_CrossEntropyLoss: 1.359144687652588	Train_Accuracy: 0.8761574029922485	
+
+Epoch 17 (18/100)  - Valid_Inference_Time: 725.52587890625	Valid_CrossEntropyLoss: 1.271616816520691	Valid_Accuracy: 0.9366666674613953	
+
+Epoch 17 (18/100)  - LR: 9.36945429652912e-05	
+
+Epoch 18 (19/100)  - Train_Inference_Time: 37621.23046875	Train_CrossEntropyLoss: 1.3535577058792114	Train_Accuracy: 0.8782407641410828	
+
+Epoch 18 (19/100)  - Valid_Inference_Time: 725.1766357421875	Valid_CrossEntropyLoss: 1.25872802734375	Valid_Accuracy: 0.9448148012161255	
+
+Epoch 18 (19/100)  - LR: 9.290138107160789e-05	
+
+Epoch 19 (20/100)  - Train_Inference_Time: 37691.3125	Train_CrossEntropyLoss: 1.3496297597885132	Train_Accuracy: 0.8812037110328674	
+
+Epoch 19 (20/100)  - Valid_Inference_Time: 727.0632934570312	Valid_CrossEntropyLoss: 1.2610595226287842	Valid_Accuracy: 0.9433333277702332	
+
+Epoch 19 (20/100)  - LR: 9.206502314365048e-05	
+
+Epoch 20 (21/100)  - Train_Inference_Time: 37589.5703125	Train_CrossEntropyLoss: 1.3515647649765015	Train_Accuracy: 0.8784722089767456	
+
+Epoch 20 (21/100)  - Valid_Inference_Time: 719.7318725585938	Valid_CrossEntropyLoss: 1.2523703575134277	Valid_Accuracy: 0.949999988079071	
+
+Epoch 20 (21/100)  - LR: 9.118631128358026e-05	
+
+Epoch 21 (22/100)  - Train_Inference_Time: 37613.77734375	Train_CrossEntropyLoss: 1.3494784832000732	Train_Accuracy: 0.8783796429634094	
+
+Epoch 21 (22/100)  - Valid_Inference_Time: 727.273681640625	Valid_CrossEntropyLoss: 1.261635422706604	Valid_Accuracy: 0.9451851844787598	
+
+Epoch 21 (22/100)  - LR: 9.026613023838382e-05	
+
+Epoch 22 (23/100)  - Train_Inference_Time: 37690.83203125	Train_CrossEntropyLoss: 1.3449467420578003	Train_Accuracy: 0.8854166865348816	
+
+Epoch 22 (23/100)  - Valid_Inference_Time: 783.985107421875	Valid_CrossEntropyLoss: 1.256181240081787	Valid_Accuracy: 0.9470370411872864	
+
+Epoch 22 (23/100)  - LR: 8.930540650904955e-05	
+
+Epoch 23 (24/100)  - Train_Inference_Time: 37484.52734375	Train_CrossEntropyLoss: 1.3401436805725098	Train_Accuracy: 0.8865740895271301	
+
+Epoch 23 (24/100)  - Valid_Inference_Time: 732.3712768554688	Valid_CrossEntropyLoss: 1.2559434175491333	Valid_Accuracy: 0.945555567741394	
+
+Epoch 23 (24/100)  - LR: 8.830510741770334e-05	
+
+Epoch 24 (25/100)  - Train_Inference_Time: 37751.47265625	Train_CrossEntropyLoss: 1.3332997560501099	Train_Accuracy: 0.8918055295944214	
+
+Epoch 24 (25/100)  - Valid_Inference_Time: 724.0687255859375	Valid_CrossEntropyLoss: 1.2521294355392456	Valid_Accuracy: 0.9485185146331787	
+
+Epoch 24 (25/100)  - LR: 8.726624013364261e-05	
+
+Epoch 25 (26/100)  - Train_Inference_Time: 37709.91015625	Train_CrossEntropyLoss: 1.334394931793213	Train_Accuracy: 0.8886111378669739	
+
+Epoch 25 (26/100)  - Valid_Inference_Time: 728.5928344726562	Valid_CrossEntropyLoss: 1.2525056600570679	Valid_Accuracy: 0.945555567741394	
+
+Epoch 25 (26/100)  - LR: 8.618985065924978e-05	
+
+Epoch 26 (27/100)  - Train_Inference_Time: 37744.6953125	Train_CrossEntropyLoss: 1.3276710510253906	Train_Accuracy: 0.897268533706665	
+
+Epoch 26 (27/100)  - Valid_Inference_Time: 731.4488525390625	Valid_CrossEntropyLoss: 1.247200846672058	Valid_Accuracy: 0.95333331823349	
+
+Epoch 26 (27/100)  - LR: 8.507702277680567e-05	
+
+Epoch 27 (28/100)  - Train_Inference_Time: 37688.16796875	Train_CrossEntropyLoss: 1.3255916833877563	Train_Accuracy: 0.8978703618049622	
+
+Epoch 27 (28/100)  - Valid_Inference_Time: 738.6967163085938	Valid_CrossEntropyLoss: 1.2437398433685303	Valid_Accuracy: 0.9562963247299194	
+
+Epoch 27 (28/100)  - LR: 8.392887695726364e-05	
+
+Epoch 28 (29/100)  - Train_Inference_Time: 37593.05859375	Train_CrossEntropyLoss: 1.3256531953811646	Train_Accuracy: 0.8968981504440308	
+
+Epoch 28 (29/100)  - Valid_Inference_Time: 1725.177490234375	Valid_CrossEntropyLoss: 1.2437530755996704	Valid_Accuracy: 0.9562963247299194	
+
+Epoch 28 (29/100)  - LR: 8.274656923208317e-05	
+
+Epoch 29 (30/100)  - Train_Inference_Time: 37582.98046875	Train_CrossEntropyLoss: 1.3232238292694092	Train_Accuracy: 0.897685170173645	
+
+Epoch 29 (30/100)  - Valid_Inference_Time: 1707.8896484375	Valid_CrossEntropyLoss: 1.2413570880889893	Valid_Accuracy: 0.9581481218338013	
+
+Epoch 29 (30/100)  - LR: 8.15312900292585e-05	
+
+Epoch 30 (31/100)  - Train_Inference_Time: 37537.11328125	Train_CrossEntropyLoss: 1.321662187576294	Train_Accuracy: 0.8996296525001526	
+
+Epoch 30 (31/100)  - Valid_Inference_Time: 1721.990966796875	Valid_CrossEntropyLoss: 1.2444934844970703	Valid_Accuracy: 0.9548147916793823	
+
+Epoch 30 (31/100)  - LR: 8.028426297471464e-05	
+
+Epoch 31 (32/100)  - Train_Inference_Time: 37627.1015625	Train_CrossEntropyLoss: 1.3135462999343872	Train_Accuracy: 0.9056944251060486	
+
+Epoch 31 (32/100)  - Valid_Inference_Time: 1747.849853515625	Valid_CrossEntropyLoss: 1.2426656484603882	Valid_Accuracy: 0.9544444680213928	
+
+Epoch 31 (32/100)  - LR: 7.900674366027737e-05	
+
+Epoch 32 (33/100)  - Train_Inference_Time: 37631.86328125	Train_CrossEntropyLoss: 1.3107997179031372	Train_Accuracy: 0.9081018567085266	
+
+Epoch 32 (33/100)  - Valid_Inference_Time: 1795.2314453125	Valid_CrossEntropyLoss: 1.2421036958694458	Valid_Accuracy: 0.9562963247299194	
+
+Epoch 32 (33/100)  - LR: 7.770001837945786e-05	
+
+Epoch 33 (34/100)  - Train_Inference_Time: 37509.43359375	Train_CrossEntropyLoss: 1.3114873170852661	Train_Accuracy: 0.9069444537162781	
+
+Epoch 33 (34/100)  - Valid_Inference_Time: 1731.1754150390625	Valid_CrossEntropyLoss: 1.2431302070617676	Valid_Accuracy: 0.9562963247299194	
+
+Epoch 33 (34/100)  - LR: 7.636540283232467e-05	
+
+Epoch 34 (35/100)  - Train_Inference_Time: 37619.8046875	Train_CrossEntropyLoss: 1.3102420568466187	Train_Accuracy: 0.9075925946235657	
+
+Epoch 34 (35/100)  - Valid_Inference_Time: 1691.9866943359375	Valid_CrossEntropyLoss: 1.2372422218322754	Valid_Accuracy: 0.9603703618049622	
+
+Epoch 34 (35/100)  - LR: 7.500424080076724e-05	
+
+Epoch 35 (36/100)  - Train_Inference_Time: 37550.55859375	Train_CrossEntropyLoss: 1.3041555881500244	Train_Accuracy: 0.9112036824226379	
+
+Epoch 35 (36/100)  - Valid_Inference_Time: 1818.908203125	Valid_CrossEntropyLoss: 1.2423993349075317	Valid_Accuracy: 0.9548147916793823	
+
+Epoch 35 (36/100)  - LR: 7.361790279548476e-05	
+
+Epoch 36 (37/100)  - Train_Inference_Time: 37698.72265625	Train_CrossEntropyLoss: 1.3016263246536255	Train_Accuracy: 0.9131481647491455	
+
+Epoch 36 (37/100)  - Valid_Inference_Time: 1736.977294921875	Valid_CrossEntropyLoss: 1.241295576095581	Valid_Accuracy: 0.9551851749420166	
+
+Epoch 36 (37/100)  - LR: 7.220778467606252e-05	
+
+Epoch 37 (38/100)  - Train_Inference_Time: 37694.66015625	Train_CrossEntropyLoss: 1.3002363443374634	Train_Accuracy: 0.9144907593727112	
+
+Epoch 37 (38/100)  - Valid_Inference_Time: 1734.13232421875	Valid_CrossEntropyLoss: 1.2365113496780396	Valid_Accuracy: 0.9611111283302307	
+
+Epoch 37 (38/100)  - LR: 7.077530624552543e-05	
+
+Epoch 38 (39/100)  - Train_Inference_Time: 37506.140625	Train_CrossEntropyLoss: 1.300532341003418	Train_Accuracy: 0.9121759533882141	
+
+Epoch 38 (39/100)  - Valid_Inference_Time: 1749.276611328125	Valid_CrossEntropyLoss: 1.2399407625198364	Valid_Accuracy: 0.9581481218338013	
+
+Epoch 38 (39/100)  - LR: 6.932190982078345e-05	
+
+Epoch 39 (40/100)  - Train_Inference_Time: 37613.46875	Train_CrossEntropyLoss: 1.2975282669067383	Train_Accuracy: 0.9164814949035645	
+
+Epoch 39 (40/100)  - Valid_Inference_Time: 1709.8492431640625	Valid_CrossEntropyLoss: 1.2432750463485718	Valid_Accuracy: 0.9544444680213928	
+
+Epoch 39 (40/100)  - LR: 6.78490587804088e-05	
+
+Epoch 40 (41/100)  - Train_Inference_Time: 37597.26953125	Train_CrossEntropyLoss: 1.2935807704925537	Train_Accuracy: 0.9181481599807739	
+
+Epoch 40 (41/100)  - Valid_Inference_Time: 1742.7366943359375	Valid_CrossEntropyLoss: 1.2438106536865234	Valid_Accuracy: 0.9544444680213928	
+
+Epoch 40 (41/100)  - LR: 6.635823609120653e-05	
+
+Epoch 41 (42/100)  - Train_Inference_Time: 37638.6015625	Train_CrossEntropyLoss: 1.291656255722046	Train_Accuracy: 0.9207407236099243	
+
+Epoch 41 (42/100)  - Valid_Inference_Time: 1751.416015625	Valid_CrossEntropyLoss: 1.2395625114440918	Valid_Accuracy: 0.9559259414672852	
+
+Epoch 41 (42/100)  - LR: 6.485094281506254e-05	
+
+Epoch 42 (43/100)  - Train_Inference_Time: 37615.73828125	Train_CrossEntropyLoss: 1.289581537246704	Train_Accuracy: 0.9212499856948853	
+
+Epoch 42 (43/100)  - Valid_Inference_Time: 1730.4322509765625	Valid_CrossEntropyLoss: 1.2381365299224854	Valid_Accuracy: 0.9574074149131775	
+
+Epoch 42 (43/100)  - LR: 6.332869659757219e-05	
+
+Epoch 43 (44/100)  - Train_Inference_Time: 37611.0703125	Train_CrossEntropyLoss: 1.284920334815979	Train_Accuracy: 0.9252314567565918	
+
+Epoch 43 (44/100)  - Valid_Inference_Time: 1760.0347900390625	Valid_CrossEntropyLoss: 1.2358803749084473	Valid_Accuracy: 0.9581481218338013	
+
+Epoch 43 (44/100)  - LR: 6.179303013997122e-05	
+
+Epoch 44 (45/100)  - Train_Inference_Time: 37660.96875	Train_CrossEntropyLoss: 1.2796745300292969	Train_Accuracy: 0.9275000095367432	
+
+Epoch 44 (45/100)  - Valid_Inference_Time: 1715.1009521484375	Valid_CrossEntropyLoss: 1.2336264848709106	Valid_Accuracy: 0.9611111283302307	
+
+Epoch 44 (45/100)  - LR: 6.024548965590777e-05	
